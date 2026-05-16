@@ -13,7 +13,6 @@ Chirpy is built around a simple principle: your alarms are yours. We don't colle
 - We do not require you to create an account or sign in.
 - We do not collect your name, email address, phone number, location, or any personally identifiable information.
 - We do not collect or share any analytics about how you use the app.
-- We do not show ads.
 - We do not track you across apps or websites.
 
 ## Information stored on your device
