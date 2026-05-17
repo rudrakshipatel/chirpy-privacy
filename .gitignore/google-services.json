@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "850433575135",
+    "project_id": "chirpy-7cb91",
+    "storage_bucket": "chirpy-7cb91.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850433575135:android:9cbec88d26d2331bed416a",
+        "android_client_info": {
+          "package_name": "com.rudrakshi.chirpyalarm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIpfwgZ7vbHAsz8e7KyR0zXjadn_SAneQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
