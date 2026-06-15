@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Support — Chirpy: Puzzle Alarm Clock</title>
+<meta name="description" content="Help, troubleshooting, and answers for Chirpy, the puzzle alarm clock for iPhone. Fix alarms that don't ring, learn the puzzles, and reach support." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --night: #050308;
+    --night-2: #0b0817;
+    --indigo: #1e1b4b;
+    --card: rgba(15, 23, 42, 0.55);
+    --card-line: rgba(139, 92, 246, 0.16);
+    --border: #1e293b;
+    --violet: #8b5cf6;
+    --violet-light: #a78bfa;
+    --violet-deep: #6d28d9;
+    --emerald: #34d399;
+    --amber: #fbbf24;
+    --text: #f5f3ff;
+    --text-2: #a8b0c2;
+    --text-3: #6b7488;
+    --reading: 700px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Hanken Grotesk', system-ui, sans-serif;
+    color: var(--text);
+    background: var(--night);
+    line-height: 1.7;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .sky { position: fixed; inset: 0; z-index: -2;
+    background: radial-gradient(120% 80% at 50% -10%, #2e1065 0%, var(--indigo) 22%, var(--night-2) 55%, var(--night) 100%); }
+  .dawn { position: fixed; top: -18vh; left: 50%; transform: translateX(-50%);
+    width: 80vw; height: 60vh; max-width: 900px; z-index: -1;
+    background: radial-gradient(closest-side, rgba(139,92,246,0.30), rgba(139,92,246,0.06) 60%, transparent 75%);
+    filter: blur(8px); pointer-events: none; }
+  .stars { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.5;
+    background-image:
+      radial-gradient(1px 1px at 12% 22%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 78% 12%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 35% 8%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 62% 30%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 88% 26%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1.5px 1.5px at 22% 15%, rgba(255,255,255,0.5), transparent); }
+
+  .wrap { max-width: var(--reading); margin: 0 auto; padding: 0 28px; }
+
+  /* Hero */
+  header.hero { padding: 92px 0 48px; text-align: center; }
+  .brand { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+  .brand svg { width: 38px; height: 38px; display: block; }
+  .brand .name { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; }
+  .navlinks { display: inline-flex; gap: 6px; margin-left: 4px; }
+  .navlinks a { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--text-3);
+    border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; text-decoration: none; }
+  .navlinks a:hover { color: var(--violet-light); border-color: var(--card-line); }
+
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.28em; text-transform: uppercase; color: var(--violet-light); margin-bottom: 22px; }
+  h1 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800;
+    font-size: clamp(38px, 7vw, 60px); line-height: 1.04; letter-spacing: -0.03em; margin-bottom: 22px; }
+  h1 .glow { background: linear-gradient(120deg, var(--violet-light), var(--violet) 55%, #c4b5fd);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lede { font-size: 19px; color: var(--text-2); max-width: 540px; margin: 0 auto; }
+
+  /* Top help-first callout */
+  .firstaid {
+    background: linear-gradient(180deg, rgba(251,191,36,0.10), rgba(251,191,36,0.02));
+    border: 1px solid rgba(251,191,36,0.22);
+    border-radius: 20px; padding: 24px 26px; margin: 8px 0 56px;
+  }
+  .firstaid .k { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 14px; }
+  .firstaid h2 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 21px;
+    letter-spacing: -0.02em; margin-bottom: 14px; }
+  ol.steps { list-style: none; counter-reset: s; display: grid; gap: 12px; }
+  ol.steps li { counter-increment: s; position: relative; padding-left: 40px; color: var(--text-2); }
+  ol.steps li::before { content: counter(s); position: absolute; left: 0; top: 1px;
+    width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--amber);
+    background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.25); }
+  ol.steps strong { color: var(--text); font-weight: 600; }
+
+  /* Section heads */
+  .sec-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--violet-light); margin: 0 0 18px; }
+
+  /* FAQ accordions */
+  details {
+    border: 1px solid var(--border); border-radius: 16px;
+    background: var(--card); backdrop-filter: blur(10px);
+    margin-bottom: 12px; overflow: hidden;
+  }
+  details[open] { border-color: var(--card-line); }
+  summary {
+    list-style: none; cursor: pointer; padding: 18px 22px;
+    font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 17.5px;
+    letter-spacing: -0.01em; color: var(--text);
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary .plus { flex: none; width: 22px; height: 22px; position: relative; transition: transform 0.25s ease; }
+  summary .plus::before, summary .plus::after { content: ""; position: absolute; background: var(--violet-light);
+    border-radius: 2px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  summary .plus::before { width: 12px; height: 2px; }
+  summary .plus::after { width: 2px; height: 12px; }
+  details[open] summary .plus { transform: rotate(135deg); }
+  .answer { padding: 0 22px 20px; color: var(--text-2); }
+  .answer p { margin-bottom: 12px; }
+  .answer p:last-child { margin-bottom: 0; }
+  .answer strong { color: var(--text); font-weight: 600; }
+  .answer ul { list-style: none; display: grid; gap: 9px; margin: 6px 0 12px; }
+  .answer li { position: relative; padding-left: 24px; }
+  .answer li::before { content: ""; position: absolute; left: 4px; top: 11px; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--violet); box-shadow: 0 0 8px rgba(139,92,246,0.6); }
+  .answer a { color: var(--violet-light); text-decoration: none; border-bottom: 1px solid rgba(167,139,250,0.35); }
+  .answer a:hover { border-bottom-color: var(--violet-light); }
+
+  .faqgroup { margin-bottom: 44px; }
+
+  /* Contact */
+  .contact {
+    text-align: center; margin: 8px 0 0;
+    background: linear-gradient(180deg, rgba(139,92,246,0.10), rgba(139,92,246,0.03));
+    border: 1px solid var(--card-line); border-radius: 22px; padding: 44px 28px;
+  }
+  .contact h2 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 26px;
+    letter-spacing: -0.02em; margin-bottom: 10px; }
+  .contact p { color: var(--text-2); max-width: 440px; margin: 0 auto 22px; }
+  .mailbtn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600;
+    color: var(--night); background: linear-gradient(120deg, var(--violet-light), var(--violet-deep));
+    padding: 13px 24px; border-radius: 999px; text-decoration: none;
+  }
+  .mailbtn svg { width: 18px; height: 18px; }
+  .mailbtn:hover { filter: brightness(1.08); }
+  .response { font-size: 13px; color: var(--text-3); margin-top: 16px; }
+
+  footer { border-top: 1px solid var(--border); padding: 40px 0 70px; text-align: center; margin-top: 60px; }
+  footer .meta { font-size: 13px; color: var(--text-3); }
+  footer a { color: var(--text-2); text-decoration: none; border-bottom: 1px solid var(--border); }
+  footer a:hover { color: var(--violet-light); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { opacity: 0; transform: translateY(16px); animation: rise 0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
+    .reveal.d1 { animation-delay: 0.06s; } .reveal.d2 { animation-delay: 0.14s; } .reveal.d3 { animation-delay: 0.22s; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+    .dawn { animation: breathe 9s ease-in-out infinite; }
+    @keyframes breathe { 0%,100% { opacity: 0.85; } 50% { opacity: 1; } }
+  }
+  :focus-visible { outline: 2px solid var(--violet-light); outline-offset: 3px; border-radius: 6px; }
+
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    header.hero { padding: 60px 0 40px; }
+    summary { font-size: 16px; padding: 16px 18px; }
+    .brand { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+  <div class="sky"></div>
+  <div class="dawn"></div>
+  <div class="stars"></div>
+
+  <div class="wrap">
+    <header class="hero">
+      <div class="brand reveal">
+        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#6d28d9"/></linearGradient></defs>
+          <circle cx="24" cy="29" r="9" fill="url(#g1)"/>
+          <line x1="24" y1="9" x2="24" y2="14" stroke="#a78bfa" stroke-width="2.4" stroke-linecap="round"/>
+          <line x1="9" y1="15" x2="12.5" y2="18.5" stroke="#a78bfa" stroke-width="2.4" stroke-linecap="round"/>
+          <line x1="39" y1="15" x2="35.5" y2="18.5" stroke="#a78bfa" stroke-width="2.4" stroke-linecap="round"/>
+          <line x1="6" y1="38" x2="42" y2="38" stroke="#8b5cf6" stroke-width="2.6" stroke-linecap="round"/>
+        </svg>
+        <span class="name">Chirpy</span>
+        <span class="navlinks"><a href="./index.html">Privacy</a></span>
+      </div>
+
+      <div class="eyebrow reveal d1">Support</div>
+      <h1 class="reveal d1">Trouble waking up?<br /><span class="glow">Let's sort it out.</span></h1>
+      <p class="lede reveal d2">Answers to the most common Chirpy questions — and the fastest way to reach a real person when you need one.</p>
+    </header>
+
+    <main>
+      <!-- First-aid: the #1 reason anyone visits an alarm support page -->
+      <section class="firstaid reveal d2">
+        <div class="k">Alarm didn't ring? Start here</div>
+        <h2>Five things to check</h2>
+        <ol class="steps">
+          <li><strong>Allow notifications.</strong> Open iOS <strong>Settings → Chirpy → Notifications</strong> and make sure they're on, including <strong>Sounds</strong>.</li>
+          <li><strong>Don't force-quit Chirpy.</strong> Leave it running in the background (don't swipe it away in the app switcher) so it can ring on time.</li>
+          <li><strong>Turn the volume up</strong> and check the ringer isn't silenced — Chirpy plays through your media volume.</li>
+          <li><strong>Allow it through Focus.</strong> In <strong>Settings → Focus</strong> (including Sleep), add Chirpy to your allowed apps so a Focus schedule doesn't mute it.</li>
+          <li><strong>Avoid Low Power Mode overnight</strong> if you can — it can delay background activity. Keeping your phone charging while you sleep is the most reliable setup.</li>
+        </ol>
+      </section>
+
+      <div class="faqgroup">
+        <p class="sec-eyebrow">Alarms & reliability</p>
+
+        <details>
+          <summary>Will Chirpy ring on silent mode or during a Focus / Sleep schedule? <span class="plus" aria-hidden="true"></span></summary>
+          <div class="answer">
+            <p>Chirpy keeps its alarm engine running so it can sound at the time you set, and it plays through your media volume rather than the ringer switch. For the most dependable wake-up, we still recommend keeping your volume up and adding Chirpy to your allowed apps under <strong>Settings → Focus</strong> (including the Sleep Focus).</p>
+            <p>Chirpy doesn't override every system setting on its own, so a few seconds of setup the first night makes mornings far more reliable.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Does Chirpy work if my phone is locked or asleep? <span class="plus" aria-hidden="true"></span></summary>
+          <div class="answer">
+            <p>Yes. As long as Chirpy is allowed to send notifications and hasn't been force-quit, it will ring at the scheduled time with your screen locked. When it goes off, you'll wake the screen and solve your chosen puzzle to dismiss it.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Will Chirpy drain my battery? <span class="plus" aria-hidden="true"></span></summary>
+          <div class="answer">
+            <p>Chirpy is built to be light. It uses a small amount of background activity to make sure your alarm fires on time — comparable to other alarm apps. Charging your phone overnight (which most people do anyway) means battery is never a concern.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="faqgroup">
+        <p class="sec-eyebrow">Puzzles</p>
+
+        <details>
+          <summary>What puzzles can I choose from? <span class="plus" aria-hidden="true"></span></summary>
+          <div class="answer">
+            <p>Chirpy can make you earn the “off” button with any of these:</p>
+            <ul>
+              <li><strong>Math</strong> — solve a quick equation.</li>
+              <li><strong>Typing</strong> — type out a short phrase.</li>
+              <li><strong>Color Match</strong> — match the target color.</li>
+              <li><strong>Find the Color</strong> — tap the correct swatch.</li>
+              <li><strong>Scan an Object</strong> — point your camera at a real item to dismiss the alarm.</li>
+            </ul>
+            <p>You can set the puzzle per alarm when you create or edit it.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>The scan puzzle won't recognize my object <span class="plus" aria-hidden="true"></span></summary>
+          <div class="answer">
+            <p>The scan puzzle uses on-device recognition, so a few things help it succeed:</p>
+            <ul>
+              <li>Make sure Chirpy has <strong>camera access</strong> in <strong>Settings → Chirpy → Camera</strong>.</li>
+              <li>Use good lighting and hold the item steady, filling most of the frame.</li>
+              <li>Pick one of the suggested everyday items (like a shoe, mug, or glasses) — those are tuned to be recognized reliably.</li>
+            </ul>
+            <p>If an item just won't register, switch that alarm to a different item or puzzle in the alarm editor.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>How do I change the puzzle difficulty? <span class="plus" aria-hidden="true"></span></summary>
+          <div class="answer">
+            <p>Open the alarm you want to change, pick its puzzle, and set the difficulty there. You can also set a default difficulty in <strong>Settings</strong> so new alarms start the way you like.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="faqgroup">
+        <p class="sec-eyebrow">Privacy & data</p>
+
+        <details>
+          <summary>Is my data private? <span class="plus" aria-hidden="true"></span></summary>
+          <div class="answer">
+            <p>Completely. Chirpy has no account, collects no personal information, and sends nothing to any server — your alarms and settings stay on your iPhone. The camera, used only for the scan puzzle, is processed entirely on-device and never stored or uploaded.</p>
+            <p>Full details are in the <a href="./index.html">Privacy Policy</a>.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>How do I delete everything Chirpy stored? <span class="plus" aria-hidden="true"></span></summary>
+          <div class="answer">
+            <p>Because all of Chirpy's data lives only on your device, deleting the app removes every alarm and setting along with it. There's nothing stored elsewhere to clear.</p>
+          </div>
+        </details>
+      </div>
+
+      <section class="contact">
+        <h2>Still stuck?</h2>
+        <p>If your question isn't here, send a message — include your iPhone model and iOS version and we'll help you sort it out.</p>
+        <a class="mailbtn" href="mailto:trchirpy07@gmail.com?subject=Chirpy%20Support">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M4 7l8 6 8-6"/></svg>
+          trchirpy07@gmail.com
+        </a>
+        <p class="response">We read every email and usually reply within a couple of days.</p>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <p class="meta">Chirpy: Puzzle Alarm Clock · Developed by Rudrakshi Patel · <a href="./index.html">Privacy Policy</a></p>
+    </div>
+  </footer>
+</body>
+</html>
